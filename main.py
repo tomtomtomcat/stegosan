@@ -17,9 +17,9 @@ def main():
     while cont: # until user stops wanting to send messages
         binarymessage = convert_to_binary(message)
 
-        packet = create_packet(src, dst, sport, dport, message)
+        packet = create_packet(src, dst, sport, dport)
 
-        digest = encode_hash(packet)
+        digest = encode_hash(packet, message)
 
         binarydigest = convert_to_binary(digest)
         
@@ -65,24 +65,24 @@ def establish_connection(src, dst, sport, dport):
     ACK = TCP(sport=sport, dport=dport, flags='A', seq=SYNACK.ack, ack=SYNACK.seq+1)
     return send(ip/ACK)
 
-def create_packet(src, dst, sport, dport, message, seq=0): # TODO fix/remove default parameter for seq?
+def create_packet(src, dst, sport, dport, seq=0): # TODO fix/remove default parameter for seq?
     seq = 1002 # TODO remove hardcoding of seq?
 
-    # for hashing: source ip, dst ip, sport, dport, seq, message
-    packet = IP(src=src, dst=dst)/TCP(dport=dport, seq=seq)/message
+    # for creating packet: source ip, dst ip, sport, dport, seq
+    packet = IP(src=src, dst=dst)/TCP(dport=dport, seq=seq)
 
     print("Packet summary:\t\t", packet.summary())
 
     return packet
 
-def encode_hash(st):
+def encode_hash(st, message):
     
     # for hashing: source ip, dst ip, sport, dport, seq, message
     params = str(st[IP].src) + " " + \
              str(st[IP].dst) + " " + \
              str(st[TCP].dport) + " " + \
              str(st[TCP].seq) + " " + \
-             str(st.load)
+             str(message)
 
     print("Parameters:\t\t", params)
 
@@ -93,12 +93,6 @@ def encode_hash(st):
     print("Hex digest:\t\t", digest)
 
     return digest
-
-# TODO finish and use
-# ----- port is hardcoded, should be changed -----
-# def sniff():
-#     sniff on port
-#     sniff(filter= 'dst port 443')
 
 # TODO finish and use
 # ----- implement logic for comparing 8 bits -----
