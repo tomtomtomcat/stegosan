@@ -1,4 +1,4 @@
 from helper import *
 
-def receiver():
-    print()
+def receiver(args):
+    print("Not implemented yet.")

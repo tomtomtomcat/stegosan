@@ -1,12 +1,12 @@
 from helper import *
 
-def sender():
+def sender(args):
     message = take_input()
 
-    src = sys.argv[2]
-    dst = sys.argv[3]
+    src = args.srcip
+    dst = args.dstip
     sport = random.randint(1024, 65535)
-    dport = int(sys.argv[4])
+    dport = args.dstport
 
     # TODO test and use for final debugging
     # establish_connection()

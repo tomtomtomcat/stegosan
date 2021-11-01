@@ -1,4 +1,6 @@
+from hashlib import sha256
 from scapy.all import *
+
 
 def take_input():
     st = input("Input a message to send: ")
@@ -17,7 +19,7 @@ def convert_to_binary(st):
 
 def establish_connection(src, dst, sport, dport):
 
-    ip = IP(src=src, dst=drc)
+    ip = IP(src=src, dst=dst)
     SYN = TCP(sport=sport, dport=dport, flags='S',seq=1000)
     SYNACK = sr1(ip/SYN)
 
@@ -45,7 +47,7 @@ def encode_hash(st, message):
 
     print("Parameters:\t\t", params)
 
-    result = hashlib.sha256(str(params).encode())
+    result = sha256(str(params).encode())
 
     digest = result.hexdigest()
 
