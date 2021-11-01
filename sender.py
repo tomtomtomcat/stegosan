@@ -12,21 +12,33 @@ def sender(args):
     # establish_connection()
 
     cont = True
+
     while cont: # until user stops wanting to send messages
-        binarymessage = convert_to_binary(message)
-
-        packet = create_packet(src, dst, sport, dport)
-
-        digest = encode_hash(packet, message)
-
-        binarydigest = convert_to_binary(digest)
         
-        # match = TODO compare_bits(binarymessage, binarydigest)
-        # if match:
-        #     send_packet(packet) # TODO
-        # else:
-        #     packet = remove_flag(packet) # TODO 
-        #     send_packet(packet)
+        messagefullysent = False # TODO not fully functional
+
+        while not messagefullysent:
+            binarymessage = convert_to_binary(message)
+
+            packet = create_packet(src, dst, sport, dport)
+
+            packet = toggle_psh(packet) 
+
+            digest = encode_hash(packet, message)
+
+            binarydigest = convert_to_binary(digest)
+            
+            match = compare_bits(binarymessage, binarydigest)
+
+            if match:
+                # send_packet(packet) # TODO
+                print("Match")
+            else:
+                # packet = toggle_psh(packet) # TODO 
+                # send_packet(packet)
+                print("No match")
+
+            messagefullysent = True
 
         print("Want to send additional messages?: (y/n)")
 

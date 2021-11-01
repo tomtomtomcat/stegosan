@@ -1,6 +1,6 @@
 from hashlib import sha256
 from scapy.all import *
-
+from random import randint
 
 def take_input():
     st = input("Input a message to send: ")
@@ -36,6 +36,19 @@ def create_packet(src, dst, sport, dport, seq=0): # TODO fix/remove default para
 
     return packet
 
+def send_packet(packet):
+    send(packet)
+
+def toggle_psh(packet):
+    if packet[TCP].flags.S and not packet[TCP].flags.P:
+        packet[TCP].flags="SP"
+    else:
+        packet[TCP].flags="S"
+
+    print(str(packet[TCP].flags))
+
+    return packet
+
 def encode_hash(st, message):
     
     # for hashing: source ip, dst ip, sport, dport, seq, message
@@ -55,8 +68,18 @@ def encode_hash(st, message):
 
     return digest
 
-# TODO finish and use
-# ----- implement logic for comparing 8 bits -----
-# def compare_bits(binarymessage, binarydigest):
-#     for i in range(1,8):
-#         print(i)
+# TODO non-functional
+def compare_bits(binarymessage, binarydigest):
+    match = False
+
+    for i in range(0,8):
+        binarydigeststr = str(binarydigest)
+        binarymessagestr = str(binarymessage)
+
+        lastbits = binarydigeststr[len(str(binarydigest))-8:len(str(binarydigest))]
+        digestasciichar = chr(int(lastbits))
+        if digestasciichar == chr(int(binarymessagestr[i])):
+                print("test")
+
+    return match
+
