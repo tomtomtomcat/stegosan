@@ -18,7 +18,10 @@ def incomming(pkt):
         print("NO")
 
 def receiver(args):
-    print("Not implemented yet.")
+    src = args.srcip
+    dst = get_if_addr(conf.iface)
+    sniff(filter="ip", prn=incomming)
+    # print("Not implemented yet.")
 
 dst = get_if_addr(conf.iface)
 print(dst)

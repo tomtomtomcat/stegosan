@@ -89,3 +89,7 @@ def get_last_8bit(st):
     st = str(st)
     lastbits = st[-8:]
     return lastbits
+
+## Code written by Xhonatan
+def assemble(st1, st2):
+    return st1 + st2
