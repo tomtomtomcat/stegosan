@@ -83,3 +83,9 @@ def compare_bits(binarymessage, binarydigest):
 
     return match
 
+## Code written by Xhonatan
+## get the last 8 bits
+def get_last_8bit(st):
+    st = str(st)
+    lastbits = st[-8:]
+    return lastbits

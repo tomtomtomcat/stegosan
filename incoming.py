@@ -1,25 +1,31 @@
 from scapy.all import *
+from helper import *
 
 def incomming(pkt):
     # filters incomming packets on scource and destination
     # Or is just for testing
-    if ((pkt[IP].src == scr) or (pkt[IP].dst == dst)):
-        ## Example of what you see for summary
-        ## IP / TCP 64.4.54.254:https > 192.168.1.78:33374 A / Padding
-        print(pkt[IP].summary())
-        ## Hex Packet Layout + Decoder
-        ## https://hpd.gasmi.net/
-        ## Notes for example Hex
-        hexData = hexdump(pkt)
-        print(hexData)
+    try:
+        if ((pkt[IP].src == scr) or (pkt[IP].dst == dst) or (pkt[TCP].flags.S and pkt[TCP].flags.P)):
+            ## Example of what you see for summary
+            ## IP / TCP 64.4.54.254:https > 192.168.1.78:33374 A / Padding
+            # print(pkt[IP].summary())
+            ## Hex Packet Layout + Decoder
+            ## https://hpd.gasmi.net/
+            ## Notes for example Hex
+            # hexData = hexdump(pkt)
+            # print(bytes(pkt[TCP].payload))
+            encode_hash(pkt, "Test")
+    except:
+        print("NO")
+    
 
 ## dst scr are read as you are the sender
 ## This is how you get the source IP address
 dst = get_if_addr(conf.iface)
 print(dst)
-scr = "127.0.0.1"
+scr = str("127.0.0.1")
 sniff(filter="ip", prn=incomming)
-
+print("Test")
 
 
 
