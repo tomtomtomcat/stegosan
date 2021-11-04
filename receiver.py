@@ -1,6 +1,6 @@
 from helper import *
 
-def incomming(pkt):
+def incoming_packets(pkt):
     # filters incomming packets on scource and destination
     # Or is just for testing
     try:
@@ -20,12 +20,13 @@ def incomming(pkt):
 def receiver(args):
     src = args.srcip
     dst = get_if_addr(conf.iface)
-    sniff(filter="ip", prn=incomming)
+    sniff(filter="ip", prn=incoming_packets)
     # print("Not implemented yet.")
 
+"""
 dst = get_if_addr(conf.iface)
 print(dst)
 scr = str("127.0.0.1")
-sniff(filter="ip", prn=incomming)
+sniff(filter="ip", prn=incoming_packets)
 print("Test")
-
+"""

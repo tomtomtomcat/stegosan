@@ -25,4 +25,5 @@ def main():
     elif args.send:
         sender(args)
 
-main()
+if __name__ == "__main__":
+    main()
