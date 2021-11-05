@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import configparser
 
 from sender import *
 from receiver import *
@@ -18,7 +19,21 @@ def main():
     parser.add_argument("-dport", "--dstport", type=int, help="Specify destination port")
     
     args = parser.parse_args()
+
+    # read and write to config file
+    config = configparser.ConfigParser()
+    config['preshared'] = {
+            'EvaluationBits': '256',
+            'SecretKey':' default',
+            'RetryCount': '10'}
+
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
     
+    evalbits = config['preshared']['EvaluationBits']
+    secretkey = config['preshared']['SecretKey']
+    retries =  config['preshared']['RetryCount']
+
     if args.receive:
         receiver(args)
         # TODO finish receiver side

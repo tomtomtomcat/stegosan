@@ -1,5 +1,6 @@
 from hashlib import sha256
 from scapy.all import *
+import numpy as np
 from random import randint
 
 def take_input():
@@ -8,6 +9,21 @@ def take_input():
     print("Message: \t\t", st)
 
     return st
+
+def format_input(message, messagectr):
+
+    messagehash = sha256(message + (str(messagectr)))
+    result = ""
+
+    result += "+"
+    result += message
+    result += "|"
+    result += messagectr
+    result += "|"
+    result += messagehash[:4] + messagehash[-4:]
+    result += "-"
+
+    return result
 
 def convert_to_binary(st):
     # st = " ".join(f"{ord(i):08b}" for i in st) # string with space joining each byte 
@@ -82,6 +98,14 @@ def compare_bits(binarymessage, binarydigest):
                 print("test")
 
     return match
+
+def compare_hex(st1, st2):
+    return st1[-4:] == st2[-4:]
+
+def generate_permutation_array(seed, evalbits=256):
+    permu = np.random.RandomState(seed=seed).permutation(evalbits)
+    print(permu)
+    return permu
 
 ## Code written by Xhonatan
 ## get the last 8 bits
