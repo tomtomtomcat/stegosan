@@ -1,7 +1,7 @@
 from hashlib import sha256
 from scapy.all import *
 import numpy as np
-from random import randint
+from random import randint,getrandbits
 
 def take_input():
     st = input("Input a message to send: ")
@@ -25,13 +25,20 @@ def format_input(message, messagectr):
 
     return result
 
-def convert_to_binary(st):
-    # st = " ".join(f"{ord(i):08b}" for i in st) # string with space joining each byte 
-    st = int("".join(f"{ord(i):08b}" for i in st)) # int
+def convert_hex_to_binary(st):
+    b = bin(int(st, 16))
+    
+    print("Binary representation:\t", b)
+
+    return b 
+
+def convert_string_to_binary(st):
+    st = list(map(bin,bytearray(st,'ascii')))
     
     print("Binary representation:\t", st)
 
     return st
+
 
 def establish_connection(src, dst, sport, dport):
 
@@ -42,11 +49,10 @@ def establish_connection(src, dst, sport, dport):
     ACK = TCP(sport=sport, dport=dport, flags='A', seq=SYNACK.ack, ack=SYNACK.seq+1)
     return send(ip/ACK)
 
-def create_packet(src, dst, sport, dport, seq=0): # TODO fix/remove default parameter for seq?
-    seq = 1002 # TODO remove hardcoding of seq?
+def create_packet(src, dst, sport, dport, seq): 
 
-    # for creating packet: source ip, dst ip, sport, dport, seq
-    packet = IP(src=src, dst=dst)/TCP(dport=dport, seq=seq)
+    # for creating packet: source ip, dst ip, sport, dport, seq, random data
+    packet = IP(src=src, dst=dst)/TCP(dport=dport, seq=seq,)/Raw(load=getrandbits(16))
 
     print("Packet summary:\t\t", packet.summary())
 
@@ -65,16 +71,16 @@ def toggle_psh(packet):
 
     return packet
 
-def encode_hash(st, message):
+def encode_hash(st):
     
-    # for hashing: source ip, dst ip, sport, dport, seq, message
+    # for hashing: source ip, dst ip, sport, dport, seq, random data
     params = str(st[IP].src) + " " + \
              str(st[IP].dst) + " " + \
              str(st[TCP].dport) + " " + \
              str(st[TCP].seq) + " " + \
-             str(message)
+             str(st[TCP].payload)
 
-    print("Parameters:\t\t", params)
+    #print("Parameters:\t\t", params) # this is spam
 
     result = sha256(str(params).encode())
 
@@ -84,18 +90,20 @@ def encode_hash(st, message):
 
     return digest
 
-# TODO non-functional
 def compare_bits(binarymessage, binarydigest):
     match = False
 
-    for i in range(0,8):
-        binarydigeststr = str(binarydigest)
-        binarymessagestr = str(binarymessage)
+    binarydigeststr = str(binarydigest)
+    binarymessagestr = str(binarymessage)
 
-        lastbits = binarydigeststr[len(str(binarydigest))-8:len(str(binarydigest))]
-        digestasciichar = chr(int(lastbits))
-        if digestasciichar == chr(int(binarymessagestr[i])):
-                print("test")
+    lastbits = binarydigeststr[-8:]
+
+    # remove encode indicator and fill with leading zeros
+    binarymessagestr = binarymessagestr[2:]
+    binarymessagestr = binarymessagestr.zfill(8)
+    print("Comparing " + lastbits + " and " + binarymessagestr) 
+    if lastbits == binarymessagestr:
+        match = True
 
     return match
 
