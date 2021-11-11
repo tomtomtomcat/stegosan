@@ -39,6 +39,11 @@ def convert_string_to_binary(st):
 
     return st
 
+def convert_binary_string_to_ascii(st):
+    bi = chr(int(st,2))
+
+    return bi
+
 
 def establish_connection(src, dst, sport, dport):
 
