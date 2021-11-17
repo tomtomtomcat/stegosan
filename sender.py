@@ -31,17 +31,20 @@ def sender(args):
                 
                 if compare_bits(i, binarydigest):
                     # send_packet(packet) # TODO
-                    print("Yes! Match.")
+                    print("Match! Sending marked packet representing \"" \
+                    + convert_binary_string_to_ascii(i) + "\".\n")
                     match = True
                 else:
                     packet = toggle_psh(packet) 
                     # send_packet(packet)
-                    print("No match")
+                    print("No match. Sending unmarked packet.\n")
 
-
+	
+        print("Fully sent message: \"" + message + "\".")
         print("Want to send additional messages?: (y/n)")
 
         choice = input()
         if (choice != 'y'):
 	        cont = False
+	        print("\nClosing connection.")
 	        # TODO close_connection()

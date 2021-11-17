@@ -28,7 +28,7 @@ def format_input(message, messagectr):
 def convert_hex_to_binary(st):
     b = bin(int(st, 16))
     
-    print("Binary representation:\t", b)
+    print("Last 8 bits of digest:\t", b[-8:])
 
     return b 
 
@@ -59,7 +59,7 @@ def create_packet(src, dst, sport, dport, seq):
     # for creating packet: source ip, dst ip, sport, dport, seq, random data
     packet = IP(src=src, dst=dst)/TCP(dport=dport, seq=seq,)/Raw(load=getrandbits(16))
 
-    print("Packet summary:\t\t", packet.summary())
+    print("Packet summary:\t\t" + packet.summary() + " (Data: " + str(packet.load) + ")")
 
     return packet
 
@@ -72,7 +72,7 @@ def toggle_psh(packet):
     else:
         packet[TCP].flags="S"
 
-    print(str(packet[TCP].flags))
+    # print(str(packet[TCP].flags))
 
     return packet
 
