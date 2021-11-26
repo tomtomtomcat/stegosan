@@ -17,6 +17,8 @@ def sender(args):
         message = take_input()
 
         binarymessage = convert_string_to_binary(message)
+        random.seed(5)
+        arr = permu()
 
         for i in binarymessage:
             match = False
@@ -29,7 +31,17 @@ def sender(args):
 
                 binarydigest = convert_hex_to_binary(digest)
                 
-                if compare_bits(i, binarydigest):
+                #if compare_bits(i, binarydigest):
+                #    # send_packet(packet) # TODO
+                #    print("Match! Sending marked packet representing \"" \
+                #    + convert_binary_string_to_ascii(i) + "\".\n")
+                #    match = True
+                #else:
+                #    packet = toggle_psh(packet) 
+                #    # send_packet(packet)
+                #    print("No match. Sending unmarked packet.\n")
+
+                if compare_bits_with_arr(i, binarydigest, arr):
                     # send_packet(packet) # TODO
                     print("Match! Sending marked packet representing \"" \
                     + convert_binary_string_to_ascii(i) + "\".\n")
@@ -39,6 +51,7 @@ def sender(args):
                     # send_packet(packet)
                     print("No match. Sending unmarked packet.\n")
 
+ 
 	
         print("Fully sent message: \"" + message + "\".")
         print("Want to send additional messages?: (y/n)")

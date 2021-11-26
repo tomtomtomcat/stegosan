@@ -28,7 +28,7 @@ def format_input(message, messagectr):
 def convert_hex_to_binary(st):
     b = bin(int(st, 16))
     
-    print("Last 8 bits of digest:\t", b[-8:])
+    # print("Last 8 bits of digest:\t", b[-8:])
 
     return b 
 
@@ -112,13 +112,47 @@ def compare_bits(binarymessage, binarydigest):
 
     return match
 
+def compare_bits_with_arr(binarymessage, binarydigest, arr):
+    match = False
+
+    binarydigeststr = str(binarydigest)
+    binarymessagestr = str(binarymessage)
+
+    # remove encode indicator and fill with leading zeros
+    binarymessagestr = binarymessagestr[2:]
+    binarymessagestr = binarymessagestr.zfill(8)
+
+    count = 0
+    for i in range(0,len(arr)):
+        print("Comparing " + binarydigest[arr[i]] + " and " + binarymessagestr[i])
+        if binarydigest[arr[i]] == binarymessagestr[i]:
+            print("The two bits match.")
+            count += 1
+        else:
+            print("The two bits don't match.")
+            break
+    
+    if count == 8:
+        match = True
+
+    return match
+
+
 def compare_hex(st1, st2):
     return st1[-4:] == st2[-4:]
 
-def generate_permutation_array(seed, evalbits=256):
-    permu = np.random.RandomState(seed=seed).permutation(evalbits)
-    print(permu)
-    return permu
+def permu(n=8, k=256):
+    perm_arr = []
+    for i in range(0,n):
+        redundancy = False
+        while not redundancy:
+            index = randint(0,k-1)
+            if index not in perm_arr:
+                perm_arr.append(index)
+                redundancy = True
+
+    print(perm_arr)
+    return perm_arr
 
 ## Code written by Xhonatan
 ## get the last 8 bits
