@@ -1,12 +1,11 @@
 from config import *
 from helper import *
 
-secret = ""
-
 def incoming_packets(pkt):
-    src = "35.50.12.218"
-    dst = get_if_addr(conf.iface)
+    src = "192.168.1.11"
+    dst = "192.168.1.11"
 
+    secret = ""
     # filters incoming packets on scource and destination
     # Or is just for testing
     if ((pkt[IP].src == src) or (pkt[IP].dst == dst)):
@@ -19,21 +18,19 @@ def incoming_packets(pkt):
         binarydigest = convert_hex_to_binary(digest)
         
         # the last 8 binary characters should represent a character of the secret message
-        char = convert_binary_string_to_ascii(binarydigest[8:])
+        char = convert_binary_string_to_ascii(binarydigest[-8:])
         # assemble character by character
-        secret = assemble(secret, char)
-        print(char)
-
+        secret += char
         #return encode_hash(pkt, get_last_8bit(pkt))
-        # return secret as it's assembled
-        return secret
+
+        # print secret as it's assembled
+        print(secret)
 
 def receiver(args):
     src = args.srcip
     dst = get_if_addr(conf.iface)
-    capture = sniff(filter='ip and tcp', prn=incoming_packets)
+    capture = sniff(filter="ip and tcp", prn=incoming_packets, count=5)
     print(capture.show())
-
 
 """
 dst = get_if_addr(conf.iface)
