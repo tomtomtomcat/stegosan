@@ -27,9 +27,14 @@ def sender():
         print("Permutation array:\t", permutation)
 
         packetcounter = 0
+        messagecounter = 0
 
         for i in binarymessage:
             match = False
+
+            fmessage = format_input(message, messagecounter)
+            messagecounter += 1
+            print(fmessage)
 
             while not match: 
                 packet = create_packet(src, dst, sport, dport, seq)
