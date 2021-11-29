@@ -1,7 +1,8 @@
+from args import *
 from config import *
 from helper import *
 
-def sender(args):
+def sender():
 
     src = args.srcip
     dst = args.dstip

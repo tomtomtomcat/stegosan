@@ -1,3 +1,4 @@
+from args import *
 from config import *
 from helper import *
 
@@ -6,7 +7,7 @@ def incoming_packets(pkt):
     dst = "192.168.1.11"
 
     secret = ""
-    # filters incoming packets on scource and destination
+    # filters incoming packets on source and destination
     # Or is just for testing
     if ((pkt[IP].src == src) or (pkt[IP].dst == dst)):
         ## Example of what you see for summary
@@ -26,7 +27,7 @@ def incoming_packets(pkt):
         # print secret as it's assembled
         print(secret)
 
-def receiver(args):
+def receiver():
     src = args.srcip
     dst = get_if_addr(conf.iface)
     capture = sniff(filter="ip and tcp", prn=incoming_packets, count=5)
