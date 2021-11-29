@@ -6,10 +6,9 @@ from sender import *
 from receiver import *
 
 def main():
-   # parse arguments
     parser = argparse.ArgumentParser(prog='stegosan')
     
-    group = parser.add_mutually_exclusive_group()
+    group = parser.add_mutually_exclusive_group() # can only either send or receive
     group.add_argument("-s", "--send", action="store_true", help="Send packets", default=True)
     group.add_argument("-r", "--receive", action="store_true", help="Receive packets")
     parser.add_argument("-src", "--srcip", type=str, help="Specify source IP")

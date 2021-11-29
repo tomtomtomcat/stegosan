@@ -3,10 +3,10 @@ from scapy.all import *
 import numpy as np
 from random import randint,getrandbits
 
+from config import *
+
 def take_input():
     st = input("Input a message to send: ")
-    
-    print("Message: \t\t", st)
 
     return st
 
@@ -34,8 +34,6 @@ def convert_hex_to_binary(st):
 
 def convert_string_to_binary(st):
     st = list(map(bin,bytearray(st,'ascii')))
-    
-    print("Binary representation:\t", st)
 
     return st
 
@@ -43,7 +41,6 @@ def convert_binary_string_to_ascii(st):
     bi = chr(int(st,2))
 
     return bi
-
 
 def establish_connection(src, dst, sport, dport):
 
@@ -85,13 +82,11 @@ def encode_hash(st):
              str(st[TCP].seq) + " " + \
              str(st[TCP].payload)
 
-    #print("Parameters:\t\t", params) # this is spam
+    #print("Parameters:\t\t", params) # this is currently spam
 
     result = sha256(str(params).encode())
 
     digest = result.hexdigest()
-
-    print("Hex digest:\t\t", digest)
 
     return digest
 
@@ -124,7 +119,8 @@ def compare_bits_with_arr(binarymessage, binarydigest, arr):
 
     count = 0
     for i in range(0,len(arr)):
-        print("Comparing " + binarydigest[arr[i]] + " and " + binarymessagestr[i])
+        print("Comparing " + binarydigest[arr[i]] + " and " + binarymessagestr[i] + "...")
+
         if binarydigest[arr[i]] == binarymessagestr[i]:
             print("The two bits match.")
             count += 1
@@ -137,22 +133,23 @@ def compare_bits_with_arr(binarymessage, binarydigest, arr):
 
     return match
 
-
 def compare_hex(st1, st2):
     return st1[-4:] == st2[-4:]
 
-def permu(n=8, k=256):
-    perm_arr = []
+def generate_permutation_array(n=evalbits, k=256):
+    permutation = []
+
     for i in range(0,n):
-        redundancy = False
+        redundancy = False # don't want repeating values in the permutation
+
         while not redundancy:
             index = randint(0,k-1)
-            if index not in perm_arr:
-                perm_arr.append(index)
+
+            if index not in permutation:
+                permutation.append(index)
                 redundancy = True
 
-    print(perm_arr)
-    return perm_arr
+    return permutation
 
 ## Code written by Xhonatan
 ## get the last 8 bits

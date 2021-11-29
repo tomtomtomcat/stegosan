@@ -4,8 +4,8 @@ import configparser
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-evalbits = config['preshared']['EvaluationBits']
+evalbits = config['preshared'].getint('EvaluationBits')
 secretkey = config['preshared']['SecretKey']
-retries =  config['preshared']['RetryCount']
+retries =  config['preshared'].getint('RetryCount')
 
 
