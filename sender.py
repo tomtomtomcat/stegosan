@@ -1,6 +1,6 @@
 from helper import *
 
-def sender(args):
+def sender(args, evalbits, secretkey, retries):
 
     src = args.srcip
     dst = args.dstip
@@ -17,29 +17,22 @@ def sender(args):
         message = take_input()
 
         binarymessage = convert_string_to_binary(message)
-        random.seed(5)
+        random.seed(secretkey)
         arr = permu()
+
+        packetcounter = 0
 
         for i in binarymessage:
             match = False
             while not match: 
                 packet = create_packet(src, dst, sport, dport, seq)
+                packetcounter += 1
 
                 packet = toggle_psh(packet) 
 
                 digest = encode_hash(packet)
 
                 binarydigest = convert_hex_to_binary(digest)
-                
-                #if compare_bits(i, binarydigest):
-                #    # send_packet(packet) # TODO
-                #    print("Match! Sending marked packet representing \"" \
-                #    + convert_binary_string_to_ascii(i) + "\".\n")
-                #    match = True
-                #else:
-                #    packet = toggle_psh(packet) 
-                #    # send_packet(packet)
-                #    print("No match. Sending unmarked packet.\n")
 
                 if compare_bits_with_arr(i, binarydigest, arr):
                     # send_packet(packet) # TODO
@@ -54,6 +47,7 @@ def sender(args):
  
 	
         print("Fully sent message: \"" + message + "\".")
+        print("Total packets sent:", packetcounter)
         print("Want to send additional messages?: (y/n)")
 
         choice = input()

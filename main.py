@@ -7,6 +7,13 @@ from sender import *
 from receiver import *
 
 def main():
+    # read config file
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    evalbits = config['preshared']['EvaluationBits']
+    secretkey = config['preshared']['SecretKey']
+    retries =  config['preshared']['RetryCount']
     
     # parse arguments
     parser = argparse.ArgumentParser(prog='stegosan')
@@ -20,25 +27,11 @@ def main():
     
     args = parser.parse_args()
 
-    # read and write to config file
-    config = configparser.ConfigParser()
-    config['preshared'] = {
-            'EvaluationBits': '256',
-            'SecretKey':' default',
-            'RetryCount': '10'}
-
-    with open('config.ini', 'w') as configfile:
-        config.write(configfile)
-    
-    evalbits = config['preshared']['EvaluationBits']
-    secretkey = config['preshared']['SecretKey']
-    retries =  config['preshared']['RetryCount']
-
     if args.receive:
-        receiver(args)
+        receiver(args, evalbits, secretkey, retries)
         # TODO finish receiver side
     elif args.send:
-        sender(args)
+        sender(args, evalbits, secretkey, retries)
 
 if __name__ == "__main__":
     main()

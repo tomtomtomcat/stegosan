@@ -27,7 +27,7 @@ def incoming_packets(pkt):
         # return secret as it's assembled
         return secret
 
-def receiver(args):
+def receiver(args, evalbits, secretkey, retries):
     src = args.srcip
     dst = get_if_addr(conf.iface)
     capture = sniff(filter='ip and tcp', prn=incoming_packets)
