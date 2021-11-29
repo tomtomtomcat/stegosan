@@ -1,3 +1,4 @@
+from config import *
 from helper import *
 
 secret = ""
@@ -27,7 +28,7 @@ def incoming_packets(pkt):
         # return secret as it's assembled
         return secret
 
-def receiver(args, evalbits, secretkey, retries):
+def receiver(args):
     src = args.srcip
     dst = get_if_addr(conf.iface)
     capture = sniff(filter='ip and tcp', prn=incoming_packets)

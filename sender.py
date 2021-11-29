@@ -1,6 +1,7 @@
+from config import *
 from helper import *
 
-def sender(args, evalbits, secretkey, retries):
+def sender(args):
 
     src = args.srcip
     dst = args.dstip

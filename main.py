@@ -1,21 +1,12 @@
 #!/usr/bin/python3
 
 import argparse
-import configparser
 
 from sender import *
 from receiver import *
 
 def main():
-    # read config file
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-
-    evalbits = config['preshared']['EvaluationBits']
-    secretkey = config['preshared']['SecretKey']
-    retries =  config['preshared']['RetryCount']
-    
-    # parse arguments
+   # parse arguments
     parser = argparse.ArgumentParser(prog='stegosan')
     
     group = parser.add_mutually_exclusive_group()
@@ -28,10 +19,10 @@ def main():
     args = parser.parse_args()
 
     if args.receive:
-        receiver(args, evalbits, secretkey, retries)
+        receiver(args)
         # TODO finish receiver side
     elif args.send:
-        sender(args, evalbits, secretkey, retries)
+        sender(args)
 
 if __name__ == "__main__":
     main()
