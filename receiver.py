@@ -40,6 +40,6 @@ def incoming_packets(pkt):
 
 def receiver():
 
-    capture = sniff(filter="tcp", prn=incoming_packets)
+    capture = sniff(filter="ip and tcp and dst port 5555", prn=incoming_packets)
     print(capture.show())
 
