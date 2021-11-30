@@ -50,10 +50,10 @@ def establish_connection(src, dst, sport, dport):
     mystream = StreamSocket(mysocket)
     return mystream
 
-def create_packet(src, dst, sport, dport, seq): 
+def create_packet(src, dst, sport, dport): 
 
     # for creating packet: source ip, dst ip, sport, dport, seq, random data
-    packet = IP(src=src, dst=dst)/TCP(dport=dport, seq=seq,)/Raw(load=getrandbits(16))
+    packet = IP(src=src, dst=dst)/TCP(sport=sport, dport=dport)/Raw(load=getrandbits(16))
 
     print("Packet summary:\t\t" + packet.summary() + " (Data: " + str(packet.load) + ")")
 
@@ -75,6 +75,7 @@ def encode_hash(st):
     # for hashing: source ip, dst ip, sport, dport, seq, random data
     params = str(st[IP].src) + " " + \
              str(st[IP].dst) + " " + \
+             str(st[TCP].sport) + " " + \
              str(st[TCP].dport) + " " + \
              str(st[TCP].seq) + " " + \
              str(st[TCP].payload)

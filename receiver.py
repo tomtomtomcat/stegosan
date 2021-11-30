@@ -5,6 +5,8 @@ from helper import *
 def incoming_packets(pkt):
     src = args.srcip
     dst = args.dstip
+    sport = args.srcport
+    dport = args.dstport
     secret = ""
     # filters incoming packets on source and destination
     # Or is just for testing

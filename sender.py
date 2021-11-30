@@ -6,12 +6,11 @@ def sender():
 
     src = args.srcip
     dst = args.dstip
-    sport = random.randint(1024, 65535)
-    seq = random.randint(1024, 65535)
+    sport = args.srcport
     dport = args.dstport
 
     # TODO test and use for final debugging
-    mystream = establish_connection(src,dst,sport,dport)
+    #mystream = establish_connection(src,dst,sport,dport)
 
     cont = True
 
@@ -37,7 +36,7 @@ def sender():
             print(fmessage)
 
             while not match: 
-                packet = create_packet(src, dst, sport, dport, seq)
+                packet = create_packet(src, dst, sport, dport)
                 packetcounter += 1
 
                 packet = toggle_psh(packet) 
@@ -49,7 +48,7 @@ def sender():
 
                 if compare_bits_with_arr(i, binarydigest, permutation):
                     print(packet[IP].summary())
-                    mystream.send(packet) 
+                    #mystream.send(packet) 
                     print("Match! Sending marked packet representing \"" \
                     + convert_binary_string_to_ascii(i) + "\".\n")
                     match = True
@@ -57,7 +56,7 @@ def sender():
                     packet = toggle_psh(packet) 
                     print(packet[IP].summary())
  
-                    mystream.send(packet)
+                    #mystream.send(packet)
                     print("No match. Sending unmarked packet.\n")
 
         print("Fully sent message: \"" + message + "\".")
