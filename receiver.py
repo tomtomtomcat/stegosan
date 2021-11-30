@@ -12,7 +12,9 @@ def incoming_packets(pkt):
     #if ((pkt[TCP].flags.P)):
     F = pkt['TCP'].flags
     if (pkt[IP].src == src) and (pkt[IP].dst == dst) and ('P' in F):
-
+        random.seed(secretkey) # use preshared seed for permutation generator
+        permutation = generate_permutation_array()
+        print("Permutation array:\t", permutation)
         print(str(pkt[TCP].flags))
         ## Example of what you see for summary
         ## IP / TCP 64.4.54.254:https > 192.168.1.78:33374 A / Padding
@@ -20,10 +22,13 @@ def incoming_packets(pkt):
 
         # digest = encode_hash(pkt, get_last_8bit(pkt))
         digest = encode_hash(pkt)
-        binarydigest = convert_hex_to_binary(digest)
+        print("Packet hash digest:",digest)
+        bindigest = convert_hex_to_binary(digest)
        
-        # the last 8 binary characters should represent a character of the secret message
-        char = convert_binary_string_to_ascii(binarydigest[-8:])
+        binstring = compare_and_extract(bindigest, permutation)
+
+        char = convert_binary_string_to_ascii(binstring)
+        print(char)        
         # assemble character by character
         secret += char
         #return encode_hash(pkt, get_last_8bit(pkt))

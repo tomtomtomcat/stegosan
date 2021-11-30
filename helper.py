@@ -130,6 +130,17 @@ def compare_bits_with_arr(binarymessage, binarydigest, arr):
 
     return match
 
+def compare_and_extract(binarydigest, permutation):
+
+    binarydigeststr = str(binarydigest)
+    binarystring = ""
+
+    for i in range(0,len(permutation)):
+        binarystring += binarydigest[permutation[i]]
+        print(binarystring)
+
+    return binarystring
+
 def compare_hex(st1, st2):
     return st1[-4:] == st2[-4:]
 
