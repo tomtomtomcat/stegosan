@@ -11,7 +11,7 @@ def sender():
     dport = args.dstport
 
     # TODO test and use for final debugging
-    # establish_connection(src,dst,sport,dport)
+    mystream = establish_connection(src,dst,sport,dport)
 
     cont = True
 
@@ -41,20 +41,21 @@ def sender():
                 packetcounter += 1
 
                 packet = toggle_psh(packet) 
-
+ 
                 digest = encode_hash(packet)
                 print("Packet hash digest:\t", digest)
 
                 binarydigest = convert_hex_to_binary(digest)
 
                 if compare_bits_with_arr(i, binarydigest, permutation):
-                    # send_packet(packet) # TODO
+                    mystream.send(packet)
                     print("Match! Sending marked packet representing \"" \
                     + convert_binary_string_to_ascii(i) + "\".\n")
                     match = True
                 else:
                     packet = toggle_psh(packet) 
-                    # send_packet(packet)
+ 
+                    mystream.send(packet)
                     print("No match. Sending unmarked packet.\n")
 
         print("Fully sent message: \"" + message + "\".")
@@ -65,4 +66,3 @@ def sender():
         if (choice != 'y'):
 	        cont = False
 	        print("\nClosing connection.")
-	        # TODO close_connection()

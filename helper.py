@@ -3,6 +3,7 @@ from scapy.all import *
 import numpy as np
 from random import randint,getrandbits
 
+
 from config import *
 
 def take_input():
@@ -44,12 +45,10 @@ def convert_binary_string_to_ascii(st):
 
 def establish_connection(src, dst, sport, dport):
 
-    ip = IP(src=src, dst=dst)
-    SYN = TCP(sport=sport, dport=dport, flags='S',seq=1000)
-    SYNACK = sr1(ip/SYN)
-
-    ACK = TCP(sport=sport, dport=dport, flags='A', seq=SYNACK.ack, ack=SYNACK.seq+1)
-    return send(ip/ACK)
+    mysocket = socket.socket()
+    mysocket.connect((dst,dport))
+    mystream = StreamSocket(mysocket)
+    return mystream
 
 def create_packet(src, dst, sport, dport, seq): 
 
@@ -64,12 +63,10 @@ def send_packet(packet):
     send(packet)
 
 def toggle_psh(packet):
-    if packet[TCP].flags.S and not packet[TCP].flags.P:
+    if packet[TCP].flags== 2:
         packet[TCP].flags="SP"
     else:
         packet[TCP].flags="S"
-
-    # print(str(packet[TCP].flags))
 
     return packet
 
