@@ -6,7 +6,6 @@ def sender():
 
     src = args.srcip
     dst = args.dstip
-    #sport = args.srcport
     dport = args.dstport
 
     # TODO test and use for final debugging
@@ -50,7 +49,7 @@ def sender():
                 binarydigest = convert_hex_to_binary(digest)
 
                 if compare_bits_with_arr(i, binarydigest, permutation):
-                    print("Match! Sending marked packet representing \"" \
+                    print("Full match! Sending marked packet representing \"" \
                     + convert_binary_string_to_ascii(i) + "\".\n")
                     send(packet) 
                     match = True

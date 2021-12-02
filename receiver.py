@@ -5,7 +5,6 @@ from helper import *
 def incoming_packets(pkt):
     src = args.srcip
     dst = args.dstip
-    sport = args.srcport
     dport = args.dstport
     secret = ""
     # filters incoming packets on source and destination
@@ -14,6 +13,7 @@ def incoming_packets(pkt):
     #if ((pkt[TCP].flags.P)):
     F = pkt['TCP'].flags
     if (pkt[IP].src == src) and (pkt[IP].dst == dst) and ('P' in F):
+        print("Marked packet found!")
         random.seed(secretkey) # use preshared seed for permutation generator
         permutation = generate_permutation_array()
         print("Permutation array:\t", permutation)
@@ -33,7 +33,7 @@ def incoming_packets(pkt):
         #return encode_hash(pkt, get_last_8bit(pkt))
 
         # print secret as it's assembled
-        print(secret)
+        print("Secret:", secret)
 
 def receiver():
 
@@ -41,11 +41,13 @@ def receiver():
 
     # bind
 
-    serverSocket.bind(("192.168.1.12",5555));
+    serverSocket.bind(("192.168.1.12", 5555));
 
     serverSocket.listen();
-    (clientConnected, clientAddress) = serverSocket.accept();
+    serverSocket.accept();
+
+    print("Sniffing for marked packets...")
 
     capture = sniff(filter="ip and tcp and dst port 5555", prn=incoming_packets)
-    print(capture.show())
+    #print(capture.show())
 
