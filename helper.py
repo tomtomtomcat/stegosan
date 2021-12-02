@@ -111,14 +111,17 @@ def compare_bits_with_arr(binarymessage, binarydigest, arr):
     binarymessagestr = str(binarymessage)
 
     # remove encode indicator and fill with leading zeros
+    binarydigeststr = binarydigeststr[2:]
+    binarydigeststr = binarydigeststr.zfill(256)
+
     binarymessagestr = binarymessagestr[2:]
     binarymessagestr = binarymessagestr.zfill(8)
 
     count = 0
     for i in range(0,len(arr)):
-        print("Comparing " + binarydigest[arr[i]] + " and " + binarymessagestr[i] + "...")
+        print("Comparing " + binarydigeststr[arr[i]] + " and " + binarymessagestr[i] + "...")
 
-        if binarydigest[arr[i]] == binarymessagestr[i]:
+        if binarydigeststr[arr[i]] == binarymessagestr[i]:
             print("The two bits match.")
             count += 1
         else:
@@ -133,10 +136,13 @@ def compare_bits_with_arr(binarymessage, binarydigest, arr):
 def compare_and_extract(binarydigest, permutation):
 
     binarydigeststr = str(binarydigest)
+    binarydigeststr = binarydigeststr[2:]
+    binarydigeststr = binarydigeststr.zfill(256)
+
     binarystring = ""
 
     for i in range(0,len(permutation)):
-        binarystring += binarydigest[permutation[i]]
+        binarystring += binarydigeststr[permutation[i]]
         # print(binarystring)
 
     return binarystring

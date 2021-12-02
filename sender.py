@@ -8,8 +8,7 @@ def sender():
     dst = args.dstip
     dport = args.dstport
 
-    # TODO test and use for final debugging
-    mystream = establish_connection(dst,dport)
+    stream = establish_connection(dst,dport)
 
     cont = True
 
@@ -21,11 +20,14 @@ def sender():
         binarymessage = convert_string_to_binary(message) # get binary representation
         print("Binary representation:\t", binarymessage)
 
+        random.seed(secretkey)
+        permutation = generate_permutation_array() # use preshared seed for permutation generator
+
         packetcounter = 0
         messagecounter = 0
 
         for i in binarymessage:
-            random.seed(secretkey) # use preshared seed for permutation generator
+            random.seed(permutation[0]) # "moving target"
             permutation = generate_permutation_array()
             print("Permutation array:\t", permutation)
 
@@ -64,5 +66,6 @@ def sender():
 
         choice = input()
         if (choice != 'y'):
-	        cont = False
-	        print("\nClosing connection.")
+            cont = False
+            print("\nClosing connection.")
+            stream.close()
