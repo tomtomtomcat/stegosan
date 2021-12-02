@@ -63,10 +63,10 @@ def send_packet(packet):
     send(packet)
 
 def toggle_psh(packet):
-    if packet[TCP].flags== 2:
-        packet[TCP].flags="SP"
+    if packet[TCP].flags== 8:
+        packet[TCP].flags=""
     else:
-        packet[TCP].flags="S"
+        packet[TCP].flags="P"
 
     return packet
 
