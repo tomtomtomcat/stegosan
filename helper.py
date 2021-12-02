@@ -53,9 +53,9 @@ def establish_connection(src, dst, sport, dport):
 def create_packet(src, dst, sport, dport): 
 
     # for creating packet: source ip, dst ip, sport, dport, seq, random data
-    packet = IP(src=src, dst=dst)/TCP(sport=sport, dport=dport)/Raw(load=getrandbits(16))
+    packet = IP(src=src, dst=dst)/TCP(sport=sport, dport=dport)/Raw(load=randint(10000))
 
-    print("Packet summary:\t\t" + packet.summary() + " (Data: " + str(packet.load) + ")")
+    print("Packet summary:\t\t" + packet.summary() + " (Data: " + str(packet[TCP].load) + ")")
 
     return packet
 
@@ -78,7 +78,7 @@ def encode_hash(st):
              str(st[TCP].sport) + " " + \
              str(st[TCP].dport) + " " + \
              str(st[TCP].seq) + " " + \
-             str(st[TCP].payload)
+             str(st.load)
 
     #print("Parameters:\t\t", params) # this is currently spam
 

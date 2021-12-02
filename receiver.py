@@ -20,7 +20,7 @@ def incoming_packets(pkt):
         print(str(pkt[TCP].flags))
         ## Example of what you see for summary
         ## IP / TCP 64.4.54.254:https > 192.168.1.78:33374 A / Padding
-        # print(pkt[IP].summary())
+        print(pkt[IP].summary(), pkt[TCP].load)
 
         # digest = encode_hash(pkt, get_last_8bit(pkt))
         digest = encode_hash(pkt)
@@ -39,6 +39,16 @@ def incoming_packets(pkt):
         print(secret)
 
 def receiver():
+
+    serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
+     
+
+    # Bind and listen
+
+    serverSocket.bind(("192.168.1.12",5555));
+
+    serverSocket.listen();
+    (clientConnected, clientAddress) = serverSocket.accept();
 
     capture = sniff(filter="ip and tcp and dst port 5555", prn=incoming_packets)
     print(capture.show())
