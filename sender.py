@@ -34,7 +34,7 @@ def sender():
 
             fmessage = format_input(message, messagecounter)
             messagecounter += 1
-            print(fmessage)
+            # print(fmessage)
 
             while not match: 
                 
@@ -50,17 +50,14 @@ def sender():
                 binarydigest = convert_hex_to_binary(digest)
 
                 if compare_bits_with_arr(i, binarydigest, permutation):
-                    print(packet[IP].summary())
-                    send(packet) 
                     print("Match! Sending marked packet representing \"" \
                     + convert_binary_string_to_ascii(i) + "\".\n")
+                    send(packet) 
                     match = True
                 else:
                     packet = toggle_psh(packet) 
-                    print(packet[IP].summary())
- 
-                    send(packet)
                     print("No match. Sending unmarked packet.\n")
+                    send(packet)
 
         print("Fully sent message: \"" + message + "\".")
         print("Total packets sent:", packetcounter)
