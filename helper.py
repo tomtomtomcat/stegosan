@@ -53,7 +53,7 @@ def establish_connection(src, dst, sport, dport):
 def create_packet(src, dst, sport, dport): 
 
     # for creating packet: source ip, dst ip, sport, dport, seq, random data
-    packet = IP(src=src, dst=dst)/TCP(sport=sport, dport=dport)/Raw(load=randint(10000))
+    packet = IP(src=src, dst=dst)/TCP(sport=sport, dport=dport)/Raw(load=randint(0,10000))
 
     print("Packet summary:\t\t" + packet.summary() + " (Data: " + str(packet[TCP].load) + ")")
 
