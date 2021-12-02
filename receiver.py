@@ -9,6 +9,8 @@ permutation = generate_permutation_array()
 def incoming_packets(pkt):
     print()
 
+    print("Marked packet found!")
+
     global permutation
     random.seed(permutation[0])
     permutation = generate_permutation_array()
@@ -18,7 +20,6 @@ def incoming_packets(pkt):
     #if ((pkt[IP].src == src) or (pkt[IP].dst == dst)):
     #if ((pkt[TCP].flags.P)):
 
-    print("Marked packet found!")
     ## Example of what you see for summary
     ## IP / TCP 64.4.54.254:https > 192.168.1.78:33374 A / Padding
 
@@ -53,8 +54,9 @@ def receiver():
     print("Client accepted, sniffing for marked packets...")
     
     #sniff(filter="ip and tcp and dst port 5555", prn=incoming_packets)
-    sniff(lfilter=lambda s: TCP in s and s[TCP].flags==8 
+    capture = sniff(lfilter=lambda s: TCP in s and s[TCP].flags==8 
             and s[IP].src==args.srcip and s[IP].dst==args.dstip, 
             prn=incoming_packets)
+    capture.show()
     #print(capture.show()
 

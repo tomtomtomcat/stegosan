@@ -13,18 +13,19 @@ def sender():
     random.seed(secretkey)
     permutation = generate_permutation_array() # use preshared seed for permutation generator
 
-    cont = True
+    messagecounter = 0
 
+    cont = True
     while cont: # until user stops sending messages
+
+        packetcounter = 0
 
         message = take_input()
         print("Message:\t\t", message)
-
+        fmessage = format_input(message, messagecounter)
         binarymessage = convert_string_to_binary(message) # get binary representation
+        #binarymessage = convert_string_to_binary(fmessage) # get binary representation
         print("Binary representation:\t", binarymessage)
-
-        packetcounter = 0
-        messagecounter = 0
 
         for i in binarymessage:
             random.seed(permutation[0]) # "moving target"
@@ -32,11 +33,6 @@ def sender():
             print("Permutation array:\t", permutation)
 
             match = False
-
-            fmessage = format_input(message, messagecounter)
-            messagecounter += 1
-            # print(fmessage)
-
             while not match: 
                 
                 sport = random.randint(1024,65535)
@@ -69,3 +65,5 @@ def sender():
             cont = False
             print("\nClosing connection.")
             stream.close()
+        else:
+            messagecounter += 1

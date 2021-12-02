@@ -13,7 +13,9 @@ def take_input():
 
 def format_input(message, messagectr):
 
-    messagehash = sha256((message + (str(messagectr))).encode('utf-8'))
+    messagehash = sha256((str(message) + (str(messagectr))).encode())
+    digest = messagehash.hexdigest()
+
     result = ""
 
     result += "+"
@@ -21,7 +23,7 @@ def format_input(message, messagectr):
     result += "|"
     result += str(messagectr)
     result += "|"
-    result += str(messagehash)[:4] + str(messagehash)[-4:]
+    result += digest[:4] + digest[-4:]
     result += "-"
 
     return result
