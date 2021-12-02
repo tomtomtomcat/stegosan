@@ -6,15 +6,16 @@ def sender():
 
     src = args.srcip
     dst = args.dstip
-    sport = args.srcport
+    #sport = args.srcport
     dport = args.dstport
 
     # TODO test and use for final debugging
-    mystream = establish_connection(src,dst,sport,dport)
+    mystream = establish_connection(dst,dport)
 
     cont = True
 
     while cont: # until user stops sending messages
+
         message = take_input()
         print("Message:\t\t", message)
 
@@ -36,6 +37,8 @@ def sender():
             print(fmessage)
 
             while not match: 
+                
+                sport = random.randint(1024,65535)
                 packet = create_packet(src, dst, sport, dport)
                 packetcounter += 1
 

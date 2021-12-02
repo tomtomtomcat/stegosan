@@ -43,7 +43,7 @@ def receiver():
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
      
 
-    # Bind and listen
+    # bind
 
     serverSocket.bind(("192.168.1.12",5555));
 

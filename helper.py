@@ -43,7 +43,7 @@ def convert_binary_string_to_ascii(st):
 
     return bi
 
-def establish_connection(src, dst, sport, dport):
+def establish_connection(dst, dport):
 
     mysocket = socket.socket()
     mysocket.connect((dst,dport))
@@ -53,7 +53,7 @@ def establish_connection(src, dst, sport, dport):
 def create_packet(src, dst, sport, dport): 
 
     # for creating packet: source ip, dst ip, sport, dport, seq, random data
-    packet = IP(src=src, dst=dst)/TCP(sport=sport, dport=dport)/Raw(load=randint(0,10000))
+    packet = IP(src=src, dst=dst)/TCP(sport=sport, dport=dport)/Raw()
 
     print("Packet summary:\t\t" + packet.summary() + " (Data: " + str(packet[TCP].load) + ")")
 
@@ -77,8 +77,7 @@ def encode_hash(st):
              str(st[IP].dst) + " " + \
              str(st[TCP].sport) + " " + \
              str(st[TCP].dport) + " " + \
-             str(st[TCP].seq) + " " + \
-             str(st.load)
+             str(st[TCP].seq)
 
     #print("Parameters:\t\t", params) # this is currently spam
 
