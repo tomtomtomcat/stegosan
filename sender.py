@@ -48,7 +48,7 @@ def sender():
 
                 if compare_bits_with_arr(i, binarydigest, permutation):
                     print(packet[IP].summary())
-                    mystream.send(packet) 
+                    mystream.send(bytes(packet)) 
                     print("Match! Sending marked packet representing \"" \
                     + convert_binary_string_to_ascii(i) + "\".\n")
                     match = True
@@ -56,7 +56,7 @@ def sender():
                     packet = toggle_psh(packet) 
                     print(packet[IP].summary())
  
-                    mystream.send(packet)
+                    mystream.send(bytes(packet))
                     print("No match. Sending unmarked packet.\n")
 
         print("Fully sent message: \"" + message + "\".")
