@@ -10,6 +10,9 @@ def sender():
 
     stream = establish_connection(dst,dport)
 
+    random.seed(secretkey)
+    permutation = generate_permutation_array() # use preshared seed for permutation generator
+
     cont = True
 
     while cont: # until user stops sending messages
@@ -19,9 +22,6 @@ def sender():
 
         binarymessage = convert_string_to_binary(message) # get binary representation
         print("Binary representation:\t", binarymessage)
-
-        random.seed(secretkey)
-        permutation = generate_permutation_array() # use preshared seed for permutation generator
 
         packetcounter = 0
         messagecounter = 0
