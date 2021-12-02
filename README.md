@@ -21,3 +21,6 @@ optional arguments:
 
 Example command:
 `sudo python3 main.py -src [srcip] -dst [dstip] -dport [dstport]`
+
+Reference algorithm: 
+Soni, Tapan, "Moving target network steganography" (2020). Theses and Dissertations. 2850. https://rdw.rowan.edu/etd/2850
