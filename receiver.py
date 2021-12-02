@@ -7,6 +7,8 @@ random.seed(secretkey)
 permutation = generate_permutation_array()
 
 def incoming_packets(pkt):
+    print()
+
     global permutation
     random.seed(permutation[0])
     permutation = generate_permutation_array()
