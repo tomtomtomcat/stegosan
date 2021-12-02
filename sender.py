@@ -1,6 +1,7 @@
 from args import *
 from config import *
 from helper import *
+from tqdm import tqdm
 
 def sender():
 
@@ -22,12 +23,14 @@ def sender():
 
         message = take_input()
         print("Message:\t\t", message)
+
         fmessage = format_input(message, messagecounter)
+
         binarymessage = convert_string_to_binary(message) # get binary representation
         #binarymessage = convert_string_to_binary(fmessage) # get binary representation
         print("Binary representation:\t", binarymessage)
 
-        for i in binarymessage:
+        for i in tqdm(binarymessage):
             random.seed(permutation[0]) # "moving target"
             permutation = generate_permutation_array()
             print("Permutation array:\t", permutation)
@@ -48,15 +51,21 @@ def sender():
 
                 if compare_bits_with_arr(i, binarydigest, permutation):
                     print("Full match! Sending marked packet representing \"" \
-                    + convert_binary_string_to_ascii(i) + "\".\n")
-                    send(packet) 
-                    match = True
-                else:
-                    packet = toggle_psh(packet) 
-                    print("No match. Sending unmarked packet.\n")
+                    + convert_binary_string_to_ascii(i) + "\".")
+
                     send(packet)
 
-        print("Fully sent message: \"" + message + "\".")
+                    print()
+                    match = True
+                else:
+                    print("No match. Sending unmarked packet.")
+
+                    packet = toggle_psh(packet) 
+
+                    send(packet)
+                    print()
+
+        print("\nFully sent message: \"" + message + "\".")
         print("Total packets sent:", packetcounter)
         print("\nWant to send additional messages?: (y/n)")
 

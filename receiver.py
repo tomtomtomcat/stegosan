@@ -15,17 +15,13 @@ def incoming_packets(pkt):
     random.seed(permutation[0])
     permutation = generate_permutation_array()
     print("Permutation array:\t", permutation)
-    # filters incoming packets on source and destination
-    # Or is just for testing
-    #if ((pkt[IP].src == src) or (pkt[IP].dst == dst)):
-    #if ((pkt[TCP].flags.P)):
 
     ## Example of what you see for summary
     ## IP / TCP 64.4.54.254:https > 192.168.1.78:33374 A / Padding
 
     # digest = encode_hash(pkt, get_last_8bit(pkt))
     digest = encode_hash(pkt)
-    print("Packet hash digest:",digest)
+    print("Packet hash digest:\t",digest)
     bindigest = convert_hex_to_binary(digest)
    
     binstring = compare_and_extract(bindigest, permutation)
@@ -57,6 +53,7 @@ def receiver():
     capture = sniff(lfilter=lambda s: TCP in s and s[TCP].flags==8 
             and s[IP].src==args.srcip and s[IP].dst==args.dstip, 
             prn=incoming_packets)
+    print()
     capture.show()
     #print(capture.show()
 
