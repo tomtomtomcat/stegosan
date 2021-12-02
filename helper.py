@@ -137,7 +137,7 @@ def compare_and_extract(binarydigest, permutation):
 
     for i in range(0,len(permutation)):
         binarystring += binarydigest[permutation[i]]
-        print(binarystring)
+        # print(binarystring)
 
     return binarystring
 
