@@ -24,3 +24,9 @@ Example command:
 
 Reference algorithm: 
 Soni, Tapan, "Moving target network steganography" (2020). Theses and Dissertations. 2850. https://rdw.rowan.edu/etd/2850
+
+To get the computers to talking to each other a port will need to be open
+example for linux
+  Adding (iptables -A INPUT -p tcp --dport 5555 -j ACCEPT)
+  Deleting (iptables -D INPUT -p tcp --dport 80 -j ACCEPT)
+man iptables in the linux terminal for the full manula
